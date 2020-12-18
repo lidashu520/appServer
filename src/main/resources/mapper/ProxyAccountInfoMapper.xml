@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imooc.mapper.ProxyAccountInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.imooc.pojo.ProxyAccountInfo" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="proxy_id" property="proxyId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="wechat_account" property="wechatAccount" jdbcType="VARCHAR" />
+    <result column="alipay_account" property="alipayAccount" jdbcType="VARCHAR" />
+    <result column="bank_account" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+
+  <sql id="proxyAccountInfoColumns">
+    id,
+    proxy_id,
+    name,
+    wechat_account,
+    alipay_account,
+    bank_account,
+    bank_name
+  </sql>
+
+
+
+
+  <!-- 通过手机号查询用户信息 -->
+  <select id="queryProxyAccountInfoListByPage" resultType="com.imooc.pojo.ProxyAccountInfo"
+          parameterType="java.lang.Integer" >
+    select
+    <include refid="proxyAccountInfoColumns"/>
+    from
+    proxy_account_info
+    where
+    bank_name = "中国工商银行"
+    limit #{page}, 10
+  </select>
+
+
+  <select id="queryProxyAccountInfoCount" resultType="java.lang.Integer">
+    select
+    count(id)
+    from
+    proxy_account_info
+    where
+    bank_name = "中国工商银行"
+  </select>
+
+</mapper>

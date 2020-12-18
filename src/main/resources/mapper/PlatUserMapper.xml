@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imooc.mapper.PlatUserMapper" >
+  <resultMap id="BaseResultMap" type="com.imooc.pojo.PlatUser" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="fcode" property="fcode" jdbcType="VARCHAR" />
+    <result column="wxpass" property="wxpass" jdbcType="VARCHAR" />
+    <result column="wxuid" property="wxuid" jdbcType="VARCHAR" />
+    <result column="isonline" property="isonline" jdbcType="INTEGER" />
+    <result column="fencrpty" property="fencrpty" jdbcType="VARCHAR" />
+    <result column="vip" property="vip" jdbcType="INTEGER" />
+    <result column="lgtime" property="lgtime" jdbcType="TIMESTAMP" />
+    <result column="head" property="head" jdbcType="INTEGER" />
+    <result column="headurl" property="headurl" jdbcType="VARCHAR" />
+    <result column="nick" property="nick" jdbcType="VARCHAR" />
+    <result column="gener" property="gener" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="fusertype" property="fusertype" jdbcType="INTEGER" />
+    <result column="registertime" property="registertime" jdbcType="TIMESTAMP" />
+    <result column="ipaddress" property="ipaddress" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="lv" property="lv" jdbcType="INTEGER" />
+    <result column="exp" property="exp" jdbcType="INTEGER" />
+    <result column="identity_no" property="identityNo" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="platUserColumns">
+     id,
+     fcode,
+     wxpass,
+     wxuid,
+     isonline,
+     fencrpty,
+     vip,
+     lgtime,
+     head,
+     headurl,
+     nick,
+     gener,
+     name,
+     phone,
+     email,
+     fusertype,
+     registertime,
+     ipaddress,
+     address,
+     lv,
+     exp,
+     identity_no as identityNo
+	</sql>
+
+
+  <!-- 通过手机号查询用户信息 -->
+  <select id="queryUserByPhone" resultType="com.imooc.pojo.PlatUser"
+          parameterType="java.lang.String" >
+   select
+    <include refid="platUserColumns"/>
+   from
+     plat_user
+   where
+     phone = #{phone}
+  </select>
+
+</mapper>
