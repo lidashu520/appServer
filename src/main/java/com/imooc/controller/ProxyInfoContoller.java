@@ -58,6 +58,7 @@ public class ProxyInfoContoller {
 	@RequestMapping("/page")
 	public JsonMsgBean queryPage(@RequestBody HashMap<String,String> params) {
 		int page = Integer.valueOf(String.valueOf(params.get("page")));
+		page = (page-1) * 10;
 		int count = (proxyInfoService.queryProxyAccountInfoCount()/10) + 1;
 		List<ProxyAccountInfo> pageList = proxyInfoService.queryProxyAccountInfoListByPage(page);
 		JsonMsgBean jsonMsgBean = new JsonMsgBean();
