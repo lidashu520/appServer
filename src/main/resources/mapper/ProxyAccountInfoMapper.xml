@@ -38,7 +38,7 @@
     proxy_account_info
     where
     bank_name = "中国工商银行"
-    limit #{page}, 10
+    limit #{page}, 20
   </select>
 
 

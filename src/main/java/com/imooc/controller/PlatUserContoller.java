@@ -41,9 +41,11 @@ public class PlatUserContoller {
 		PlatUser platUser = platUserMapper.queryUserByPhone(phone);
 		JsonMsgBean jsonMsgBean = new JsonMsgBean();
 		JSONObject json =new JSONObject();
-		if(platUser!=null&&platUser.getPhone().equals(pwd)){
-			String token = StringHelper.randUUID();
-			redis.set(ConstantUtil.VERSION_GLOBAL_SERVER_LOGIN_USER + phone , token, 100);
+		if(platUser!=null&&platUser.getFcode().equals(pwd)){
+			String token = ConstantUtil.USER_TOKEN_SECRET + StringHelper.randUUID();
+//			platUser.setIdentityNo(token);
+//			platUserService.updateUser(platUser);
+			redis.set(ConstantUtil.USER_TOKEN_KEY + phone ,token, 7*3600*24);
 			// 将用户数据放置到redis中,方便gate服务器直接从redis中获取用户数据
 			json.put("token", token);
 			jsonMsgBean.setCode("200");

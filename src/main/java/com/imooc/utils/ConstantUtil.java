@@ -16,5 +16,6 @@ public class ConstantUtil {
     public static final String VERSION_LOGIC_UPDATE_PLAYER = "VERSION_LOGIC_UPDATE_PLAYER";
     public static final String VERSION_ALAST_LOGIN_VO = "VERSION_ALAST_LOGIN_VO";
     public static final String VERSION_GLOBAL_SERVER_LOAD_PLAYER_ACCOUNT_DATA = "VERSION_GLOBAL_SERVER_LOAD_PLAYER_ACCOUNT_DATASS_";
-
+    public static final String USER_TOKEN_SECRET ="c97541e2f";
+    public static final String USER_TOKEN_KEY = "USER_TOKEN_KEY";
 }

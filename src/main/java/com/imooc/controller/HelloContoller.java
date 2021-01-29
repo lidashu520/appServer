@@ -27,5 +27,9 @@ public class HelloContoller {
 		
 		return IMoocJSONResult.ok(bean);
 	}
-	
+
+	@RequestMapping("{code}")
+	public boolean validate(){
+		return true;
+	}
 }
