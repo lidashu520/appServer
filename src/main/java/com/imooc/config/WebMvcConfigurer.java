@@ -24,7 +24,7 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
 	public void addInterceptors(InterceptorRegistry registry) {
 		List listOfVerify = Arrays.asList("/**");
 
-		List listOfExc = Arrays.asList("/platUser/login","/platUser/register");
+		List listOfExc = Arrays.asList("/platUser/login","/platUser/register","/platUser/exit");
 
 		/**
 		 * 拦截器按照顺序执行

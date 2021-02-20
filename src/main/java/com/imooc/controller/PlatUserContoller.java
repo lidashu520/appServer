@@ -6,6 +6,7 @@ import com.imooc.pojo.JsonMsgBean;
 import com.imooc.pojo.PlatUser;
 import com.imooc.service.PlatUserService;
 import com.imooc.utils.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,35 +33,6 @@ public class PlatUserContoller {
 
 	@Autowired
 	private PlatUserMapper platUserMapper;
-
-
-	@RequestMapping("/login")
-	public JsonMsgBean login(@RequestBody HashMap<String,String> loginParams) {
-		String phone = loginParams.get("name");
-		String pwd = loginParams.get("pwd");
-		PlatUser platUser = platUserMapper.queryUserByPhone(phone);
-		JsonMsgBean jsonMsgBean = new JsonMsgBean();
-		JSONObject json =new JSONObject();
-		if(platUser!=null&&platUser.getFcode().equals(pwd)){
-			String token = ConstantUtil.USER_TOKEN_SECRET + StringHelper.randUUID();
-//			platUser.setIdentityNo(token);
-//			platUserService.updateUser(platUser);
-			redis.set(ConstantUtil.USER_TOKEN_KEY + phone ,token, 7*3600*24);
-			// 将用户数据放置到redis中,方便gate服务器直接从redis中获取用户数据
-			json.put("token", token);
-			jsonMsgBean.setCode("200");
-			jsonMsgBean.setSuccess(true);
-			jsonMsgBean.setMsg("登陆成功");
-			jsonMsgBean.setData(json);
-		}else {
-			json.put("token", "");
-			jsonMsgBean.setCode("201");
-			jsonMsgBean.setSuccess(false);
-			jsonMsgBean.setMsg("登陆失败");
-			jsonMsgBean.setData(json);
-		}
-		return  jsonMsgBean;
-	}
 
 	@RequestMapping("/register")
 	public JsonMsgBean register(@RequestBody HashMap<String,String> regParams) {
@@ -129,11 +101,53 @@ public class PlatUserContoller {
 
 		return  jsonMsgBean;
 
+	}
 
+	@RequestMapping("/login")
+	public JsonMsgBean login(@RequestBody HashMap<String,String> loginParams) {
+		String phone = loginParams.get("name");
+		String pwd = loginParams.get("pwd");
+		PlatUser platUser = platUserMapper.queryUserByPhone(phone);
+		JsonMsgBean jsonMsgBean = new JsonMsgBean();
+		JSONObject json =new JSONObject();
+		if(platUser!=null&&platUser.getFcode().equals(pwd)){
+			String token = ConstantUtil.USER_TOKEN_SECRET + StringHelper.randUUID();
+			redis.set(ConstantUtil.USER_TOKEN_KEY + phone ,token, 7*3600*24);
+			// 将用户数据放置到redis中,方便gate服务器直接从redis中获取用户数据
+			json.put("token", token);
+			jsonMsgBean.setCode("200");
+			jsonMsgBean.setSuccess(true);
+			jsonMsgBean.setMsg("登陆成功");
+			jsonMsgBean.setData(json);
+		}else {
+			json.put("token", "");
+			jsonMsgBean.setCode("201");
+			jsonMsgBean.setSuccess(false);
+			jsonMsgBean.setMsg("登陆失败");
+			jsonMsgBean.setData(json);
+		}
+		return  jsonMsgBean;
+	}
 
-
-
-
+	@RequestMapping("/exit")
+	public JsonMsgBean exit(@RequestBody HashMap<String,String> loginParams) {
+		String phone = loginParams.get("name");
+		PlatUser platUser = platUserMapper.queryUserByPhone(phone);
+		JsonMsgBean jsonMsgBean = new JsonMsgBean();
+		if(platUser!=null){
+			if(StringUtils.isNotBlank(redis.get(ConstantUtil.USER_TOKEN_KEY + phone))) {
+				redis.del(ConstantUtil.USER_TOKEN_KEY + phone);
+			}
+			// 将用户数据放置到redis中,方便gate服务器直接从redis中获取用户数据
+			jsonMsgBean.setCode("200");
+			jsonMsgBean.setSuccess(true);
+			jsonMsgBean.setMsg("退出成功");
+		}else {
+			jsonMsgBean.setCode("201");
+			jsonMsgBean.setSuccess(false);
+			jsonMsgBean.setMsg("退出失败");
+		}
+		return  jsonMsgBean;
 	}
 
 
