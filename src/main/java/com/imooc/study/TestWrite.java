@@ -1,4 +1,4 @@
-package com.imooc.utils;
+package com.imooc.study;
 
 import java.io.BufferedWriter;
 import java.io.File;
